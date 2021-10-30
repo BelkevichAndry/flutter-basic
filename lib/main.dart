@@ -42,7 +42,25 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text('Hello world text')],
+          children: <Widget>[
+            Form(
+                key: _formKey,
+                child: TextFormField(
+                    controller: _controller,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(), labelText: "number"),
+                    validator: (value) {
+                      if (value!.isEmpty) return null;
+                      if (!RegExp(r"^\d+$").hasMatch(value)) {
+                        return 'We accept only numbers from 0-9';
+                      }
+                      return null;
+                    },
+                    onChanged: (context) => {
+                          if (_formKey.currentState!.validate())
+                            {_formKey.currentState!.save()}
+                        }))
+          ],
         ),
       ),
     );
