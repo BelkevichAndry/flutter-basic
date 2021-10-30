@@ -56,10 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
                   return null;
                 },
-                onChanged: (context) => {
-                  if (_formKey.currentState!.validate())
-                    {_formKey.currentState!.save()},
-                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
               ),
             )
           ],
