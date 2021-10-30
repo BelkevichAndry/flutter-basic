@@ -29,7 +29,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _number = TextEditingController();
+  final TextEditingController _string = TextEditingController();
+  final TextEditingController _email = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -45,20 +47,62 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Form(
               key: _formKey,
-              child: TextFormField(
-                controller: _controller,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: "number"),
-                validator: (value) {
-                  if (value!.isEmpty) return null;
-                  if (!RegExp(r"^\d+$").hasMatch(value)) {
-                    return 'We accept only numbers from 0-9';
-                  }
-                  return null;
-                },
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(18.0),
+                    child: TextFormField(
+                      controller: _number,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), labelText: "number"),
+                      validator: (value) {
+                        if (value!.isEmpty) return null;
+                        if (!RegExp(r"^\d+$").hasMatch(value)) {
+                          return 'We accept only numbers from 0-9';
+                        }
+                        return null;
+                      },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(18.0),
+                    child: TextFormField(
+                      controller: _string,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), labelText: "string"),
+                      validator: (value) {
+                        if (value!.isEmpty) return null;
+                        if (value.length < 3) {
+                          return "Please enter at least 3 characters for your string";
+                        }
+                        if (!RegExp(r"^[A-Za-z]+$").hasMatch(value)) {
+                          return "Please provide only characters from A-Z ";
+                        }
+                        return null;
+                      },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(18.0),
+                    child: TextFormField(
+                      controller: _email,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), labelText: "email"),
+                      validator: (value) {
+                        if (value!.isEmpty) return null;
+                        if (!RegExp(r"^\S+@\S+\.\S+$").hasMatch(value)) {
+                          return "Please provide valid email";
+                        }
+                        return null;
+                      },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                  ),
+                ],
               ),
-            )
+            ),
           ],
         ),
       ),
