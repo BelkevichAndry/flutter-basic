@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(), labelText: "number"),
                       validator: (value) {
-                        if (value!.isEmpty) return null;
+                        if (value!.isEmpty) return "Please, fill data";
                         if (!RegExp(r"^\d+$").hasMatch(value)) {
                           return 'We accept only numbers from 0-9';
                         }
@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(), labelText: "string"),
                       validator: (value) {
-                        if (value!.isEmpty) return null;
+                        if (value!.isEmpty) return "Please, fill data";
                         if (value.length < 3) {
                           return "Please enter at least 3 characters for your string";
                         }
@@ -91,13 +91,26 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(), labelText: "email"),
                       validator: (value) {
-                        if (value!.isEmpty) return null;
+                        if (value!.isEmpty) return "Please, fill data";
                         if (!RegExp(r"^\S+@\S+\.\S+$").hasMatch(value)) {
                           return "Please provide valid email";
                         }
                         return null;
                       },
                       autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Processing Data')),
+                          );
+                        }
+                      },
+                      child: const Text('Submit'),
                     ),
                   ),
                 ],
