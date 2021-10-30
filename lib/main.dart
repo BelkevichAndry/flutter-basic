@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.all(18.0),
+                    padding: EdgeInsets.all(12.0),
                     child: TextFormField(
                       controller: _number,
                       decoration: const InputDecoration(
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(18.0),
+                    padding: EdgeInsets.all(12.0),
                     child: TextFormField(
                       controller: _string,
                       decoration: const InputDecoration(
@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(18.0),
+                    padding: EdgeInsets.all(12.0),
                     child: TextFormField(
                       controller: _email,
                       decoration: const InputDecoration(
