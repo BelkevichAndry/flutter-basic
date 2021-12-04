@@ -52,19 +52,24 @@ class NotesList extends StatelessWidget {
                 return new ListView.builder(
                     itemCount: snapshot.data?.length,
                     itemBuilder: (context, index) {
-                      return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                                padding: EdgeInsets.all(12.0),
-                                child: Text(snapshot.data![index].text,
-                                    style: new TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                    ),
-                                    textAlign: TextAlign.center)),
-                            new Divider()
-                          ]);
+                      return Dismissible(
+                          key: UniqueKey(),
+                          onDismissed: (direction) {
+                            bloc.inRemoveNote.add(snapshot.data![index].id);
+                          },
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                    padding: EdgeInsets.all(12.0),
+                                    child: Text(snapshot.data![index].text,
+                                        style: new TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18.0,
+                                        ),
+                                        textAlign: TextAlign.center)),
+                                new Divider()
+                              ]));
                     });
               } else if (snapshot.hasError) {
                 return new Text("${snapshot.error}");

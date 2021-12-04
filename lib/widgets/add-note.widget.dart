@@ -13,9 +13,7 @@ class AddNotePage extends StatefulWidget {
 }
 
 class _AddNoteState extends State<AddNotePage> {
-  final TextEditingController _number = TextEditingController();
   final TextEditingController _string = TextEditingController();
-  final TextEditingController _email = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -61,7 +59,7 @@ class _AddNoteState extends State<AddNotePage> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             Navigator.pop(context);
-                            final note = Note(text: _string.text);
+                            final note = CreateNote(text: _string.text);
                             bloc.inAddNote.add(note);
                           }
                         },

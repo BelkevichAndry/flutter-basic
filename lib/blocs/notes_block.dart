@@ -9,18 +9,20 @@ abstract class BlocBase {
 
 class NotesBloc implements BlocBase {
   final _notesController = StreamController<List<Note>>.broadcast();
+  final _addNoteController = StreamController<CreateNote>.broadcast();
+  final _removeNoteController = StreamController<int>.broadcast();
 
   StreamSink<List<Note>> get _inNotes => _notesController.sink;
+  StreamSink<CreateNote> get inAddNote => _addNoteController.sink;
+  StreamSink<int> get inRemoveNote => _removeNoteController.sink;
 
   Stream<List<Note>> get notes => _notesController.stream;
-
-  final _addNoteController = StreamController<Note>.broadcast();
-  StreamSink<Note> get inAddNote => _addNoteController.sink;
 
   NotesBloc() {
     getNotes();
 
     _addNoteController.stream.listen(_handleAddNote);
+    _removeNoteController.stream.listen(_handleRemoveNote);
   }
 
   @override
@@ -36,9 +38,14 @@ class NotesBloc implements BlocBase {
     _inNotes.add(notes);
   }
 
-  void _handleAddNote(Note note) async {
+  void _handleAddNote(CreateNote note) async {
     final db = DBHelper();
     db.saveNote(note);
     getNotes();
+  }
+
+  void _handleRemoveNote(int id) async {
+    final db = DBHelper();
+    db.deleteNote(id);
   }
 }

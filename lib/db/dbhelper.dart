@@ -26,11 +26,18 @@ class DBHelper {
         "CREATE TABLE Note(id INTEGER PRIMARY KEY, text TEXT, created_at TEXT )");
   }
 
-  void saveNote(Note note) async {
+  void saveNote(CreateNote note) async {
     var dbClient = await db;
     return await dbClient?.transaction((txn) async {
       await txn.rawInsert('INSERT INTO Note(text, created_at ) VALUES(?,?)',
           [note.text, DateTime.now().toString()]);
+    });
+  }
+
+  void deleteNote(int id) async {
+    var dbClient = await db;
+    return await dbClient?.transaction((txn) async {
+      await txn.rawInsert('DELETE FROM Note WHERE id = (?)', [id]);
     });
   }
 
@@ -40,7 +47,7 @@ class DBHelper {
       List<Map> list = await dbClient.rawQuery('SELECT * FROM Note');
       List<Note> notes = [];
       for (int i = 0; i < list.length; i++) {
-        notes.add(Note(text: list[i]['text']));
+        notes.add(Note(text: list[i]['text'], id: list[i]['id']));
       }
       return notes;
     } else {
