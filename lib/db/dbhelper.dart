@@ -47,8 +47,12 @@ class DBHelper {
       List<Map> list = await dbClient.rawQuery('SELECT * FROM Note');
       List<Note> notes = [];
       for (int i = 0; i < list.length; i++) {
-        notes.add(Note(text: list[i]['text'], id: list[i]['id']));
+        notes.add(Note(
+            text: list[i]['text'],
+            id: list[i]['id'],
+            createdAt: list[i]['created_at']));
       }
+      print(notes);
       return notes;
     } else {
       return [];

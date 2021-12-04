@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:noter/blocs/bloc_provider.dart';
 import 'package:noter/models/note.model.dart';
 
@@ -61,14 +62,32 @@ class NotesList extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
-                                    padding: EdgeInsets.all(12.0),
-                                    child: Text(snapshot.data![index].text,
-                                        style: new TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18.0,
-                                        ),
-                                        textAlign: TextAlign.center)),
-                                new Divider()
+                                    padding: EdgeInsets.all(5.0),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                              child: (Text(
+                                            snapshot.data![index].text,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: new TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 15.0,
+                                            ),
+                                          ))),
+                                          Text(
+                                            DateFormat.yMMMd().format(
+                                                DateTime.parse(snapshot
+                                                    .data![index].createdAt)),
+                                            overflow: TextOverflow.fade,
+                                            style: new TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 10.0,
+                                            ),
+                                          ),
+                                        ])),
+                                const Divider()
                               ]));
                     });
               } else if (snapshot.hasError) {
