@@ -1,3 +1,0 @@
-# flutter-basic
-
-Basic Flutter
