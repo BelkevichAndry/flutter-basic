@@ -42,12 +42,7 @@ class _AddNoteState extends State<AddNotePage> {
                             labelText: "add note"),
                         validator: (value) {
                           if (value!.isEmpty) return "Please, fill data";
-                          if (value.length < 3) {
-                            return "Please enter at least 3 characters for your string";
-                          }
-                          if (!RegExp(r"^[A-Za-z ]+$").hasMatch(value)) {
-                            return "Please provide only characters from A-Z ";
-                          }
+
                           return null;
                         },
                         autovalidateMode: AutovalidateMode.onUserInteraction,
