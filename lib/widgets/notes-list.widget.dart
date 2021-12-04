@@ -1,13 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:noter/db/dbhelper.dart';
+import 'package:noter/blocs/bloc_provider.dart';
 import 'package:noter/models/note.model.dart';
-
-Future<List<Note>> fetchNotesFromDatabase() async {
-  var dbHelper = DBHelper();
-  Future<List<Note>> employees = dbHelper.getNotes();
-  return employees;
-}
 
 class HeadingItem implements ListItem {
   final String heading;
@@ -41,47 +35,51 @@ class MessageItem implements ListItem {
 
 abstract class ListItem {
   Widget buildTitle(BuildContext context);
-
   Widget buildSubtitle(BuildContext context);
 }
 
 class NotesList extends StatelessWidget {
-  final items = List<ListItem>.generate(
-    5,
-    (i) => i % 6 == 0
-        ? HeadingItem('Heading $i')
-        : MessageItem('Sender $i', 'Message body $i'),
-  );
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: new FutureBuilder<List<Note>>(
-          future: fetchNotesFromDatabase(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return new ListView.builder(
-                  itemCount: snapshot.data?.length,
-                  itemBuilder: (context, index) {
-                    return new Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(snapshot.data![index].text,
-                              style: new TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18.0)),
-                          Text(snapshot.data![index].text,
-                              style: new TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 14.0)),
-                          new Divider()
-                        ]);
-                  });
-            } else if (snapshot.hasError) {
-              return new Text("${snapshot.error}");
-            }
-            return new Container(
-              alignment: AlignmentDirectional.center,
-              child: new CircularProgressIndicator(),
-            );
-          }),
-    );
+    final bloc = NotesProvider.of(context);
+    if (bloc != null) {
+      return Container(
+        margin: const EdgeInsets.all(20.0),
+        child: StreamBuilder<List<Note>>(
+            stream: bloc.notes,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return new ListView.builder(
+                    itemCount: snapshot.data?.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                                padding: EdgeInsets.all(12.0),
+                                child: Text(snapshot.data![index].text,
+                                    style: new TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0,
+                                    ),
+                                    textAlign: TextAlign.center)),
+                            new Divider()
+                          ]);
+                    });
+              } else if (snapshot.hasError) {
+                return new Text("${snapshot.error}");
+              }
+              return new Container(
+                alignment: AlignmentDirectional.center,
+                child: new CircularProgressIndicator(),
+              );
+            }),
+      );
+    } else {
+      return new Container(
+        alignment: AlignmentDirectional.center,
+        child: new CircularProgressIndicator(),
+      );
+    }
   }
 }

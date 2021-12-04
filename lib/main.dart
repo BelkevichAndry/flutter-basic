@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noter/blocs/bloc_provider.dart';
 import 'package:noter/widgets/notes-list.widget.dart';
 import './widgets/add-note.widget.dart';
 
@@ -11,18 +12,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Quingo',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
+    return NotesProvider(
+      child: MaterialApp(
+        title: 'Quingo',
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+        ),
+        initialRoute: '/notes-list',
+        routes: {
+          '/notes-list': (context) => const HomePage(),
+          '/add-note': (context) => const AddNotePage(
+                title: 'Add new note',
+              ),
+        },
       ),
-      initialRoute: '/notes-list',
-      routes: {
-        '/notes-list': (context) => const HomePage(),
-        '/add-note': (context) => const AddNotePage(
-              title: 'Add new note',
-            ),
-      },
     );
   }
 }

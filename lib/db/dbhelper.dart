@@ -42,7 +42,6 @@ class DBHelper {
       for (int i = 0; i < list.length; i++) {
         notes.add(Note(text: list[i]['text']));
       }
-      print(notes.length);
       return notes;
     } else {
       return [];
